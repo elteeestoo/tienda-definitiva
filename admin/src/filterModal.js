@@ -277,8 +277,6 @@ class FilterModal extends HTMLElement {
     // modal
     const buttonAccept = this.shadow.querySelector('.filter-inside-buttons-accept')
     const buttonDecline = this.shadow.querySelector('.filter-inside-buttons-decline')
-    const background = this.shadow.querySelector('.background-block')
-    const filterMenu = this.shadow.querySelector('.filter-modal')
 
     buttonAccept?.addEventListener('click', () => {
       this.closeModal()

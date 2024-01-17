@@ -402,7 +402,7 @@ p {
             } else {
               input.classList.add('border-red')
             }
-            if (input.value.length == 0) {
+            if (input.value.length === 0) {
               input.classList.remove('border-red')
             }
           }
@@ -420,7 +420,7 @@ p {
             } else {
               input.classList.add('border-red')
             }
-            if (input.value.length == 0) {
+            if (input.value.length === 0) {
               input.classList.remove('border-red')
             }
           }

@@ -18,8 +18,7 @@ export default (() => {
         console.log(minLength)
 
         if (input.value.length < parseInt(minLength) && input.value.length > 0) {
-          input.classList.add('border-red')
-          c('hola')
+          input.classList.add('border-red')('hola')
         } else {
           input.classList.remove('border-red')
         }
@@ -38,7 +37,7 @@ export default (() => {
           } else {
             input.classList.add('border-red')
           }
-          if (input.value.length == 0) {
+          if (input.value.length === 0) {
             input.classList.remove('border-red')
           }
         }
@@ -56,7 +55,7 @@ export default (() => {
           } else {
             input.classList.add('border-red')
           }
-          if (input.value.length == 0) {
+          if (input.value.length === 0) {
             input.classList.remove('border-red')
           }
         }
