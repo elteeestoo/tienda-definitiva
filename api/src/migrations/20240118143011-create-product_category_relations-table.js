@@ -2,14 +2,14 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('cities', {
+    await queryInterface.createTable('product_category_relations', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      countryId: {
+      productCategoryId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
@@ -17,9 +17,13 @@ module.exports = {
           key: 'id'
         }
       },
-      name: {
+      productId: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'cities',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,
@@ -36,6 +40,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('cities')
+    await queryInterface.dropTable('product_category_relations')
   }
 }

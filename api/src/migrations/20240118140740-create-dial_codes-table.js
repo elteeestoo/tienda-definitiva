@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('cities', {
+    await queryInterface.createTable('dial_codes', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -17,7 +17,7 @@ module.exports = {
           key: 'id'
         }
       },
-      name: {
+      dialCode: {
         allowNull: false,
         type: Sequelize.STRING
       },
@@ -36,6 +36,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('cities')
+    await queryInterface.dropTable('dial_codes')
   }
 }

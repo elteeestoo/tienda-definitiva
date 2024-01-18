@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('cities', {
+    await queryInterface.createTable('taxes', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -17,9 +17,21 @@ module.exports = {
           key: 'id'
         }
       },
-      name: {
+      type: {
         allowNull: false,
         type: Sequelize.STRING
+      },
+      rate: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      multiplier: {
+        allowNull: false,
+        type: Sequelize.DECIMAL
+      },
+      current: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: 1
       },
       createdAt: {
         allowNull: false,
@@ -36,6 +48,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('cities')
+    await queryInterface.dropTable('taxes')
   }
 }
