@@ -2,36 +2,31 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('prices', {
+    await queryInterface.createTable('email_errors', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      productId: {
+      customerId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'products',
+          model: 'customers',
           key: 'id'
         }
       },
-      taxId: {
+      emailId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'cities',
+          model: 'emails',
           key: 'id'
         }
       },
-      basePrice: {
-        allowNull: false,
-        type: Sequelize.DECIMAL
-      },
-      current: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: 1
+      error: {
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,
@@ -45,15 +40,15 @@ module.exports = {
         type: Sequelize.DATE
       }
     })
-    await queryInterface.addIndex('prices', ['productId'], {
-      name: 'prices_productId_fk'
+    await queryInterface.addIndex('email_errors', ['customerId'], {
+      name: 'sent_emails_customersId_fk'
     })
-    await queryInterface.addIndex('prices', ['taxId'], {
-      name: 'prices_taxId_fk'
+    await queryInterface.addIndex('email_errors', ['emailId'], {
+      name: 'sent_emails_emailsId_fk'
     })
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('prices')
+    await queryInterface.dropTable('email_errors')
   }
 }

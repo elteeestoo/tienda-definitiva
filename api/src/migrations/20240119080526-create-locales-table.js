@@ -2,24 +2,32 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('dial_codes', {
+    await queryInterface.createTable('locales', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      countryId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'countries',
-          key: 'id'
-        }
-      },
-      dialCode: {
+      languageAlias: {
         allowNull: false,
         type: Sequelize.STRING
+      },
+      entity: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      entityId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      key: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      value: {
+        allowNull: false,
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,
@@ -33,13 +41,9 @@ module.exports = {
         type: Sequelize.DATE
       }
     })
-
-    await queryInterface.addIndex('dial_codes', ['countryId'], {
-      name: 'dial_codes_countryId_fk'
-    })
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('dial_codes')
+    await queryInterface.dropTable('locales')
   }
 }

@@ -13,7 +13,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'countries',
+          model: 'products_categories',
           key: 'id'
         }
       },
@@ -21,7 +21,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'cities',
+          model: 'products',
           key: 'id'
         }
       },
@@ -36,6 +36,12 @@ module.exports = {
       deletedAt: {
         type: Sequelize.DATE
       }
+    })
+    await queryInterface.addIndex('product_category_relations', ['productId'], {
+      name: 'product_category_relations_productId_fk'
+    })
+    await queryInterface.addIndex('product_category_relations', ['productCategoryId'], {
+      name: 'product_category_relations_productCategoryId_fk'
     })
   },
 
