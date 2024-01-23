@@ -1,57 +1,48 @@
 module.exports = function (sequelize, DataTypes) {
-  const Company = sequelize.define('Company', {
+  const CartDetail = sequelize.define('CartDetail', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    countryId: {
+    cartId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    cityId: {
+    productId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    dialCodeId: {
+    localeId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    fiscalName: {
+    priceId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    priceDiscountId: {
+      type: DataTypes.INTEGER
+    },
+    taxId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    productName: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    comercialName: {
-      type: DataTypes.STRING,
+    basePrice: {
+      type: DataTypes.DECIMAL(6, 2),
       allowNull: false
     },
-    vat: {
-      type: DataTypes.STRING,
+    taxPrice: {
+      type: DataTypes.DECIMAL(6, 2)
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
       allowNull: false
-    },
-    comercialAddress: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    fiscalAddress: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    postalCode: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
-    },
-    web: {
-      type: DataTypes.STRING
-    },
-    telephone: {
-      type: DataTypes.STRING
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -71,7 +62,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'companies',
+    tableName: 'cart_details',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -84,32 +75,46 @@ module.exports = function (sequelize, DataTypes) {
         ]
       },
       {
-        name: 'companies_countryId_fk',
+        name: 'cart_details_cartId_fk',
         using: 'BTREE',
         fields: [
-          { name: 'countryId' }
+          { name: 'cartId' }
         ]
       },
       {
-        name: 'companies_cityId_fk',
+        name: 'cart_details_cartId_fk',
         using: 'BTREE',
         fields: [
-          { name: 'cityId' }
+          { name: 'productId' }
         ]
       },
       {
-        name: 'companies_dialCodeId_fk',
+        name: 'cart_details_localeId_fk',
         using: 'BTREE',
         fields: [
-          { name: 'dialCodeId' }
+          { name: 'localeId' }
+        ]
+      },
+      {
+        name: 'cart_details_priceId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'priceId' }
+        ]
+      },
+      {
+        name: 'cart_details_taxId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'taxId' }
         ]
       }
     ]
   })
 
-  Company.associate = function (models) {
+  CartDetail.associate = function (models) {
 
   }
 
-  return Company
+  return CartDetail
 }

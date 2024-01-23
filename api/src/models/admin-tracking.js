@@ -1,16 +1,24 @@
 module.exports = function (sequelize, DataTypes) {
-  const City = sequelize.define('City', {
+  const AdminTracking = sequelize.define('AdminTracking', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    countryId: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    name: {
+    entity: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    entityId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    action: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -32,7 +40,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'cities',
+    tableName: 'admin_trackings',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -45,18 +53,26 @@ module.exports = function (sequelize, DataTypes) {
         ]
       },
       {
-        name: 'cities_countryId_fk',
+        name: 'admin_trackings_userId_fk',
         using: 'BTREE',
         fields: [
-          { name: 'countryId' }
+          { name: 'userId' }
+        ]
+      },
+      {
+        name: 'admin_trackings_entity_entityId_index',
+        using: 'BTREE',
+        fields: [
+          { name: 'entity' },
+          { name: 'entityId' }
         ]
       }
     ]
   })
 
-  City.associate = function (models) {
+  AdminTracking.associate = function (models) {
 
   }
 
-  return City
+  return AdminTracking
 }

@@ -1,16 +1,28 @@
 module.exports = function (sequelize, DataTypes) {
-  const City = sequelize.define('City', {
+  const Ticket = sequelize.define('Ticket', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    countryId: {
+    customerId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    name: {
+    saleId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    returnId: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    reference: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    path: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -32,7 +44,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'cities',
+    tableName: 'tickets',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -43,20 +55,13 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
-      },
-      {
-        name: 'cities_countryId_fk',
-        using: 'BTREE',
-        fields: [
-          { name: 'countryId' }
-        ]
       }
     ]
   })
 
-  City.associate = function (models) {
+  Ticket.associate = function (models) {
 
   }
 
-  return City
+  return Ticket
 }

@@ -1,18 +1,17 @@
 module.exports = function (sequelize, DataTypes) {
-  const City = sequelize.define('City', {
+  const ProductCategory = sequelize.define('ProductCategory', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    countryId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
     name: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    visible: {
+      type: DataTypes.BOOLEAN
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -32,7 +31,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'cities',
+    tableName: 'product_categories',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -43,20 +42,13 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
-      },
-      {
-        name: 'cities_countryId_fk',
-        using: 'BTREE',
-        fields: [
-          { name: 'countryId' }
-        ]
       }
     ]
   })
 
-  City.associate = function (models) {
+  ProductCategory.associate = function (models) {
 
   }
 
-  return City
+  return ProductCategory
 }

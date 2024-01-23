@@ -1,57 +1,55 @@
 module.exports = function (sequelize, DataTypes) {
-  const Company = sequelize.define('Company', {
+  const ApiTracking = sequelize.define('ApiTracking', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    countryId: {
+    customerId: {
+      type: DataTypes.INTEGER
+    },
+    fingerprintId: {
+      type: DataTypes.INTEGER
+    },
+    ip: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    isRobot: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
+    resource: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    resourceElement: {
+      type: DataTypes.INTEGER
+    },
+    method: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    httpCode: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    cityId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    dialCodeId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    fiscalName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    comercialName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    vat: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    comercialAddress: {
-      type: DataTypes.STRING,
+    message: {
+      type: DataTypes.TEXT,
       allowNull: true
     },
-    fiscalAddress: {
-      type: DataTypes.STRING,
+    startTime: {
+      type: DataTypes.DOUBLE,
       allowNull: false
     },
-    postalCode: {
-      type: DataTypes.STRING,
+    endTime: {
+      type: DataTypes.DOUBLE,
       allowNull: false
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
-    },
-    web: {
-      type: DataTypes.STRING
-    },
-    telephone: {
-      type: DataTypes.STRING
+    latencyMS: {
+      type: DataTypes.DOUBLE,
+      allowNull: false
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -71,7 +69,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'companies',
+    tableName: 'api_trackings',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -84,32 +82,25 @@ module.exports = function (sequelize, DataTypes) {
         ]
       },
       {
-        name: 'companies_countryId_fk',
+        name: 'api_trackings_customerId_fk',
         using: 'BTREE',
         fields: [
-          { name: 'countryId' }
+          { name: 'customerId' }
         ]
       },
       {
-        name: 'companies_cityId_fk',
+        name: 'capi_trackings_fingerprintId_fk',
         using: 'BTREE',
         fields: [
-          { name: 'cityId' }
-        ]
-      },
-      {
-        name: 'companies_dialCodeId_fk',
-        using: 'BTREE',
-        fields: [
-          { name: 'dialCodeId' }
+          { name: 'fingerprintId' }
         ]
       }
     ]
   })
 
-  Company.associate = function (models) {
+  ApiTracking.associate = function (models) {
 
   }
 
-  return Company
+  return ApiTracking
 }

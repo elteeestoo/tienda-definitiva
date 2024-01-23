@@ -1,17 +1,47 @@
 module.exports = function (sequelize, DataTypes) {
-  const City = sequelize.define('City', {
+  const Image = sequelize.define('Image', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    countryId: {
+    imageConfigurationId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    name: {
+    entityId: {
+      type: DataTypes.INTEGER
+    },
+    entity: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    name: {
+      type: DataTypes.STRING
+    },
+    originalFilename: {
+      type: DataTypes.STRING
+    },
+    resizedFilename: {
+      type: DataTypes.STRING
+    },
+    title: {
+      type: DataTypes.STRING
+    },
+    alt: {
+      type: DataTypes.STRING
+    },
+    languageAlias: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    mediaQuery: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    latencyMs: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     createdAt: {
@@ -32,7 +62,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'cities',
+    tableName: 'images',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -43,20 +73,13 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
-      },
-      {
-        name: 'cities_countryId_fk',
-        using: 'BTREE',
-        fields: [
-          { name: 'countryId' }
-        ]
       }
     ]
   })
 
-  City.associate = function (models) {
+  Image.associate = function (models) {
 
   }
 
-  return City
+  return Image
 }

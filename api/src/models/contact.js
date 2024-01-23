@@ -1,17 +1,28 @@
 module.exports = function (sequelize, DataTypes) {
-  const City = sequelize.define('City', {
+  const Contact = sequelize.define('Contact', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    countryId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+    fingerprintId: {
+      type: DataTypes.INTEGER
     },
     name: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    subject: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    message: {
+      type: DataTypes.TEXT,
       allowNull: false
     },
     createdAt: {
@@ -32,7 +43,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'cities',
+    tableName: 'contacts',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -45,18 +56,25 @@ module.exports = function (sequelize, DataTypes) {
         ]
       },
       {
-        name: 'cities_countryId_fk',
+        name: 'contacts_fingerprintId_fk',
         using: 'BTREE',
         fields: [
-          { name: 'countryId' }
+          { name: 'fingerprintId' }
+        ]
+      },
+      {
+        name: 'contacts_email_index',
+        using: 'BTREE',
+        fields: [
+          { name: 'email' }
         ]
       }
     ]
   })
 
-  City.associate = function (models) {
+  Contact.associate = function (models) {
 
   }
 
-  return City
+  return Contact
 }

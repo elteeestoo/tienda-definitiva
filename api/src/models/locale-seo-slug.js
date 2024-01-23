@@ -1,18 +1,43 @@
 module.exports = function (sequelize, DataTypes) {
-  const City = sequelize.define('City', {
+  const LocaleSeoSlug = sequelize.define('LocaleSeoSlug', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    countryId: {
+    localeSeoId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    name: {
+    languageAlias: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    relParent: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    slug: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    key: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    parentSlug: {
+      type: DataTypes.STRING
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    description: {
+      type: DataTypes.STRING
+    },
+    keywords: {
+      type: DataTypes.STRING
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -32,7 +57,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'cities',
+    tableName: 'locale_seo_slugs',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -43,20 +68,13 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
-      },
-      {
-        name: 'cities_countryId_fk',
-        using: 'BTREE',
-        fields: [
-          { name: 'countryId' }
-        ]
       }
     ]
   })
 
-  City.associate = function (models) {
+  LocaleSeoSlug.associate = function (models) {
 
   }
 
-  return City
+  return LocaleSeoSlug
 }

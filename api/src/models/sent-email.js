@@ -1,17 +1,17 @@
 module.exports = function (sequelize, DataTypes) {
-  const City = sequelize.define('City', {
+  const SentEmail = sequelize.define('SentEmail', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    countryId: {
+    customerId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    name: {
-      type: DataTypes.STRING,
+    emailId: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     createdAt: {
@@ -32,7 +32,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'cities',
+    tableName: 'sent_emails',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -43,20 +43,13 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
-      },
-      {
-        name: 'cities_countryId_fk',
-        using: 'BTREE',
-        fields: [
-          { name: 'countryId' }
-        ]
       }
     ]
   })
 
-  City.associate = function (models) {
+  SentEmail.associate = function (models) {
 
   }
 
-  return City
+  return SentEmail
 }

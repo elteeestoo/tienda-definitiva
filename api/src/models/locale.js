@@ -1,16 +1,28 @@
 module.exports = function (sequelize, DataTypes) {
-  const City = sequelize.define('City', {
+  const locale = sequelize.define('locale', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    countryId: {
+    languageAlias: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    entity: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    entityId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    name: {
+    key: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    value: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -32,7 +44,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'cities',
+    tableName: 'locales',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -43,20 +55,13 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
-      },
-      {
-        name: 'cities_countryId_fk',
-        using: 'BTREE',
-        fields: [
-          { name: 'countryId' }
-        ]
       }
     ]
   })
 
-  City.associate = function (models) {
+  locale.associate = function (models) {
 
   }
 
-  return City
+  return locale
 }

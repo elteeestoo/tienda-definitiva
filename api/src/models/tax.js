@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const City = sequelize.define('City', {
+  const Tax = sequelize.define('Tax', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -10,8 +10,20 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    name: {
+    type: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    rate: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false
+    },
+    multiplier: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false
+    },
+    current: {
+      type: DataTypes.BOOLEAN,
       allowNull: false
     },
     createdAt: {
@@ -32,7 +44,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'cities',
+    tableName: 'taxes',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -43,20 +55,13 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
-      },
-      {
-        name: 'cities_countryId_fk',
-        using: 'BTREE',
-        fields: [
-          { name: 'countryId' }
-        ]
       }
     ]
   })
 
-  City.associate = function (models) {
+  Tax.associate = function (models) {
 
   }
 
-  return City
+  return Tax
 }

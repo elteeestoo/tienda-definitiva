@@ -1,18 +1,52 @@
 module.exports = function (sequelize, DataTypes) {
-  const City = sequelize.define('City', {
+  const Sale = sequelize.define('Sale', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    countryId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+    cartId: {
+      type: DataTypes.INTEGER
     },
-    name: {
+    customerId: {
+      type: DataTypes.INTEGER
+    },
+    paymentMethodId: {
+      type: DataTypes.INTEGER
+    },
+    couponId: {
+      type: DataTypes.INTEGER
+    },
+    reference: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    totalPrice: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false
+    },
+    totalBasePrice: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false
+    },
+    totalTaxPrice: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false
+    },
+    saleDate: {
+      type: DataTypes.DATEONLY,
+      allowNull: false
+    },
+    saleTime: {
+      type: DataTypes.TIME,
+      allowNull: false
+    },
+    startsAt: {
+      type: DataTypes.DATE
+    },
+    endsAt: {
+      type: DataTypes.DATE
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -32,7 +66,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'cities',
+    tableName: 'sales',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -43,20 +77,13 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
-      },
-      {
-        name: 'cities_countryId_fk',
-        using: 'BTREE',
-        fields: [
-          { name: 'countryId' }
-        ]
       }
     ]
   })
 
-  City.associate = function (models) {
+  Sale.associate = function (models) {
 
   }
 
-  return City
+  return Sale
 }

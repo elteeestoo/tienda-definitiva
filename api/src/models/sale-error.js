@@ -1,18 +1,29 @@
 module.exports = function (sequelize, DataTypes) {
-  const City = sequelize.define('City', {
+  const SaleError = sequelize.define('SaleError', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    countryId: {
+    paymentMethodId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    name: {
-      type: DataTypes.STRING,
+    customerId: {
+      type: DataTypes.INTEGER,
       allowNull: false
+    },
+    cartId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    errorCode: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    errorMessage: {
+      type: DataTypes.STRING
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -32,7 +43,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'cities',
+    tableName: 'sale_errors',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -43,20 +54,13 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
-      },
-      {
-        name: 'cities_countryId_fk',
-        using: 'BTREE',
-        fields: [
-          { name: 'countryId' }
-        ]
       }
     ]
   })
 
-  City.associate = function (models) {
+  SaleError.associate = function (models) {
 
   }
 
-  return City
+  return SaleError
 }

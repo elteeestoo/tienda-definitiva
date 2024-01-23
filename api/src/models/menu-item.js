@@ -1,18 +1,41 @@
 module.exports = function (sequelize, DataTypes) {
-  const City = sequelize.define('City', {
+  const MenuItem = sequelize.define('MenuItem', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    countryId: {
+    menuId: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    localeSeoId: {
+      type: DataTypes.INTEGER
+    },
+    localeSeoSlugId: {
+      type: DataTypes.INTEGER
+    },
+    parent: {
+      type: DataTypes.INTEGER
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    description: {
+      type: DataTypes.STRING
+    },
+    customUrl: {
+      type: DataTypes.STRING
+    },
+    private: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
+    order: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -32,7 +55,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'cities',
+    tableName: 'menu_items',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -43,20 +66,13 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
-      },
-      {
-        name: 'cities_countryId_fk',
-        using: 'BTREE',
-        fields: [
-          { name: 'countryId' }
-        ]
       }
     ]
   })
 
-  City.associate = function (models) {
+  MenuItem.associate = function (models) {
 
   }
 
-  return City
+  return MenuItem
 }

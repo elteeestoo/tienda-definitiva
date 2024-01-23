@@ -1,18 +1,21 @@
 module.exports = function (sequelize, DataTypes) {
-  const City = sequelize.define('City', {
+  const Cart = sequelize.define('Cart', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    countryId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+    uuid: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      defaultValue: DataTypes.UUIDV4
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
+    customerId: {
+      type: DataTypes.INTEGER
+    },
+    fingerprintId: {
+      type: DataTypes.INTEGER
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -32,7 +35,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'cities',
+    tableName: 'carts',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -45,18 +48,25 @@ module.exports = function (sequelize, DataTypes) {
         ]
       },
       {
-        name: 'cities_countryId_fk',
+        name: 'carts_customerId_fk',
         using: 'BTREE',
         fields: [
-          { name: 'countryId' }
+          { name: 'customerId' }
+        ]
+      },
+      {
+        name: 'carts_fingerprintId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'fingerprintId' }
         ]
       }
     ]
   })
 
-  City.associate = function (models) {
+  Cart.associate = function (models) {
 
   }
 
-  return City
+  return Cart
 }

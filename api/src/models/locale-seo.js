@@ -1,18 +1,43 @@
 module.exports = function (sequelize, DataTypes) {
-  const City = sequelize.define('City', {
+  const LocaleSeo = sequelize.define('LocaleSeo', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    countryId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    name: {
+    languageAlias: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    url: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    description: {
+      type: DataTypes.STRING
+    },
+    redirection: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: 0
+    },
+    menu: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: 1
+    },
+    changeFrequency: {
+      type: DataTypes.STRING
+    },
+    priority: {
+      type: DataTypes.DECIMAL
+    },
+    sitemap: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: 1
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -32,7 +57,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'cities',
+    tableName: 'locale_seos',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -43,20 +68,13 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
-      },
-      {
-        name: 'cities_countryId_fk',
-        using: 'BTREE',
-        fields: [
-          { name: 'countryId' }
-        ]
       }
     ]
   })
 
-  City.associate = function (models) {
+  LocaleSeo.associate = function (models) {
 
   }
 
-  return City
+  return LocaleSeo
 }

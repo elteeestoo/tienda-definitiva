@@ -1,16 +1,27 @@
 module.exports = function (sequelize, DataTypes) {
-  const City = sequelize.define('City', {
+  const Invoice = sequelize.define('Invoice', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    countryId: {
+    customerId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    name: {
+    saleId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    returnId: {
+      type: DataTypes.INTEGER
+    },
+    reference: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    path: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -32,7 +43,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'cities',
+    tableName: 'invoices',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -43,20 +54,13 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
-      },
-      {
-        name: 'cities_countryId_fk',
-        using: 'BTREE',
-        fields: [
-          { name: 'countryId' }
-        ]
       }
     ]
   })
 
-  City.associate = function (models) {
+  Invoice.associate = function (models) {
 
   }
 
-  return City
+  return Invoice
 }
