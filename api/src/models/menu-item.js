@@ -2,8 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const MenuItem = sequelize.define('MenuItem', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     menuId: {
@@ -11,10 +11,12 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     },
     localeSeoId: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     localeSeoSlugId: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     parent: {
       type: DataTypes.INTEGER
@@ -53,7 +55,8 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
     tableName: 'menu_items',
     timestamps: true,
@@ -66,12 +69,35 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
+      },
+      {
+        name: 'menu_items_menuId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'menuId' }
+        ]
+      },
+      {
+        name: 'menu_items_localeSeoId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'localeSeoId' }
+        ]
+      },
+      {
+        name: 'menu_items_localeSeoSlugId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'localeSeoSlugId' }
+        ]
       }
     ]
   })
 
   MenuItem.associate = function (models) {
-
+    MenuItem.belongsTo(models.Menu, { as: 'menu', foreignKey: 'menuId' })
+    MenuItem.belongsTo(models.LocaleSeo, { as: 'localeSeo', foreignKey: 'localeSeoId' })
+    MenuItem.belongsTo(models.LocaleSeoSlug, { as: 'localeSeoSlug', foreignKey: 'localeSeoSlugId' })
   }
 
   return MenuItem

@@ -2,12 +2,13 @@ module.exports = function (sequelize, DataTypes) {
   const LocaleSeoRedirect = sequelize.define('LocaleSeoRedirect', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     localeSeoId: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     languageAlias: {
       type: DataTypes.STRING,
@@ -41,7 +42,8 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
     tableName: 'locale_seo_redirects',
     timestamps: true,
@@ -54,12 +56,19 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
+      },
+      {
+        name: 'locale_seo_redirects_localeSeoId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'localeSeoId' }
+        ]
       }
     ]
   })
 
   LocaleSeoRedirect.associate = function (models) {
-
+    LocaleSeoRedirect.belongsTo(models.LocaleSeo, { as: 'localeSeo', foreignKey: 'localeSeoId' })
   }
 
   return LocaleSeoRedirect

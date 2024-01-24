@@ -2,18 +2,13 @@ module.exports = function (sequelize, DataTypes) {
   const User = sequelize.define('User', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: 'Por favor, rellena el campo "Nombre".'
-        }
-      }
+      allowNull: false
     },
     email: {
       type: DataTypes.STRING,
@@ -40,7 +35,8 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
     tableName: 'users',
     timestamps: true,
@@ -53,12 +49,20 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
+      },
+      {
+        name: 'users_email_index',
+        using: 'BTREE',
+        fields: [
+          { name: 'email' }
+        ]
       }
     ]
   })
 
   User.associate = function (models) {
-
+    // Ticket.belongsTo(models.Sale, { as: 'sale', foreignKey: 'saleId' })
+    User.hasMany(models.AdminTracking, { as: 'adminTrackings', foreignKey: 'userId' })
   }
 
   return User

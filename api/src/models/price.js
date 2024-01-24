@@ -2,15 +2,17 @@ module.exports = function (sequelize, DataTypes) {
   const Price = sequelize.define('Price', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     productId: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     taxId: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     basePrice: {
       type: DataTypes.DECIMAL
@@ -47,12 +49,32 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
+      },
+      {
+        name: 'prices_productId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'productId' }
+        ]
+      },
+      {
+        name: 'prices_taxId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'taxId' }
+        ]
       }
     ]
   })
 
   Price.associate = function (models) {
+    Price.belongsTo(models.Product, { as: 'product', foreignKey: 'productId' })
+    Price.belongsTo(models.Tax, { as: 'tax', foreignKey: 'taxId' })
 
+    Price.hasMany(models.CartDetail, { as: 'cartDetails', foreignKey: 'priceId' })
+    Price.hasMany(models.PriceDiscount, { as: 'priceDiscounts', foreignKey: 'priceId' })
+    Price.hasMany(models.ReturnDetail, { as: 'returnDetails', foreignKey: 'priceId' })
+    Price.hasMany(models.SaleDetail, { as: 'saleDetails', foreignKey: 'priceId' })
   }
 
   return Price

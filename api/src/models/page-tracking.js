@@ -2,14 +2,47 @@ module.exports = function (sequelize, DataTypes) {
   const PageTracking = sequelize.define('PageTracking', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
-    productId: {
-      type: DataTypes.INTEGER
+    customerId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
-    productCategoryId: {
+    fingerprintId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    localeSeoId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    localeSeoSlugId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    path: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    ip: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    isRobot: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
+    startTime: {
+      type: DataTypes.DOUBLE,
+      allowNull: false
+    },
+    endTime: {
+      type: DataTypes.DOUBLE,
+      allowNull: false
+    },
+    latencyMS: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
@@ -29,7 +62,8 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
     tableName: 'page_trackings',
     timestamps: true,
@@ -42,12 +76,43 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
+      },
+      {
+        name: 'page_trackings_customerId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'customerId' }
+        ]
+      },
+      {
+        name: 'page_trackings_fingerprintId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'fingerprintId' }
+        ]
+      },
+      {
+        name: 'page_trackings_localeSeoId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'localeSeoId' }
+        ]
+      },
+      {
+        name: 'page_trackings_localeSeoSlugId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'localeSeoSlugId' }
+        ]
       }
     ]
   })
 
   PageTracking.associate = function (models) {
-
+    PageTracking.belongsTo(models.Customer, { as: 'customer', foreignKey: 'customerId' })
+    PageTracking.belongsTo(models.Fingerprint, { as: 'fingerprint', foreignKey: 'fingerprintId' })
+    PageTracking.belongsTo(models.LocaleSeo, { as: 'localeSeo', foreignKey: 'localeSeoId' })
+    PageTracking.belongsTo(models.LocaleSeoSlug, { as: 'localeSeoSlug', foreignKey: 'localeSeoSlugId' })
   }
 
   return PageTracking

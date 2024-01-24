@@ -2,12 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const SaleError = sequelize.define('SaleError', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
-      allowNull: false
-    },
-    paymentMethodId: {
-      type: DataTypes.INTEGER,
+      autoIncrement: true,
       allowNull: false
     },
     customerId: {
@@ -15,6 +11,10 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     },
     cartId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    paymentMethodId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
@@ -41,7 +41,8 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
     tableName: 'sale_errors',
     timestamps: true,
@@ -54,12 +55,35 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
+      },
+      {
+        name: 'sale_errors_paymentMethodId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'paymentMethodId' }
+        ]
+      },
+      {
+        name: 'sale_errors_customerId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'customerId' }
+        ]
+      },
+      {
+        name: 'sale_errors_cartId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'cartId' }
+        ]
       }
     ]
   })
 
   SaleError.associate = function (models) {
-
+    SaleError.belongsTo(models.PaymentMethod, { as: 'paymentMethod', foreignKey: 'paymentMethodId' })
+    SaleError.belongsTo(models.Customer, { as: 'customer', foreignKey: 'customerId' })
+    SaleError.belongsTo(models.Cart, { as: 'cart', foreignKey: 'cartId' })
   }
 
   return SaleError

@@ -2,8 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const ReturnDetail = sequelize.define('ReturnDetail', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     returnId: {
@@ -22,12 +22,14 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
+
     taxId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
     priceDiscountId: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     productName: {
       type: DataTypes.STRING,
@@ -61,7 +63,8 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
     tableName: 'return_details',
     timestamps: true,
@@ -74,12 +77,59 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
+      },
+      {
+        name: 'return_details_returnId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'returnId' }
+        ]
+      },
+      {
+        name: 'return_details_productId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'productId' }
+        ]
+      },
+      {
+        name: 'return_details_localeId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'localeId' }
+        ]
+      },
+      {
+        name: 'return_details_priceId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'priceId' }
+        ]
+      },
+      {
+        name: 'return_details_taxId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'taxId' }
+        ]
+      },
+      {
+        name: 'return_details_priceDiscountId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'priceDiscountId' }
+        ]
       }
     ]
   })
 
   ReturnDetail.associate = function (models) {
-
+    ReturnDetail.belongsTo(models.Return, { as: 'return', foreignKey: 'returnId' })
+    ReturnDetail.belongsTo(models.Product, { as: 'product', foreignKey: 'productId' })
+    ReturnDetail.belongsTo(models.Locale, { as: 'locale', foreignKey: 'localeId' })
+    ReturnDetail.belongsTo(models.Price, { as: 'price', foreignKey: 'priceId' })
+    ReturnDetail.belongsTo(models.Tax, { as: 'tax', foreignKey: 'taxId' })
+    ReturnDetail.belongsTo(models.PriceDiscount, { as: 'priceDiscount', foreignKey: 'priceDiscountId' })
   }
 
   return ReturnDetail

@@ -2,8 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const LocaleSeo = sequelize.define('LocaleSeo', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     languageAlias: {
@@ -55,7 +55,8 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
     tableName: 'locale_seos',
     timestamps: true,
@@ -73,7 +74,11 @@ module.exports = function (sequelize, DataTypes) {
   })
 
   LocaleSeo.associate = function (models) {
-
+    LocaleSeo.hasMany(models.CustomerTracking, { as: 'customerTrackings', foreignKey: 'localeSeoId' })
+    LocaleSeo.hasMany(models.LocaleSeoRedirect, { as: 'localeSeoRedirects', foreignKey: 'localeSeoId' })
+    LocaleSeo.hasMany(models.LocaleSeoSlug, { as: 'localeSeoSlugs', foreignKey: 'localeSeoId' })
+    LocaleSeo.hasMany(models.MenuItem, { as: 'menuItems', foreignKey: 'localeSeoId' })
+    LocaleSeo.hasMany(models.pageTracking, { as: 'pageTrackings', foreignKey: 'localeSeoId' })
   }
 
   return LocaleSeo

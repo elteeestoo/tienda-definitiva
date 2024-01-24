@@ -1,9 +1,9 @@
 module.exports = function (sequelize, DataTypes) {
-  const PaymentMethod = sequelize.define('PaymentMethod', {
+  const PaymentMethods = sequelize.define('PaymentMethods', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     name: {
@@ -35,7 +35,8 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
     tableName: 'payment_methods',
     timestamps: true,
@@ -52,9 +53,12 @@ module.exports = function (sequelize, DataTypes) {
     ]
   })
 
-  PaymentMethod.associate = function (models) {
-
+  PaymentMethods.associate = function (models) {
+    PaymentMethods.hasMany(models.ReturnError, { as: 'returnErrors', foreignKey: 'paymentMethodId' })
+    PaymentMethods.hasMany(models.Return, { as: 'returns', foreignKey: 'paymentMethodId' })
+    PaymentMethods.hasMany(models.SaleError, { as: 'saleErrors', foreignKey: 'paymentMethodId' })
+    PaymentMethods.hasMany(models.Sale, { as: 'sales', foreignKey: 'paymentMethodId' })
   }
 
-  return PaymentMethod
+  return PaymentMethods
 }

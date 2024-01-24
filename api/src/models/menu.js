@@ -2,18 +2,13 @@ module.exports = function (sequelize, DataTypes) {
   const Menu = sequelize.define('Menu', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: 'Por favor, rellena el campo "Nombre".'
-        }
-      }
+      allowNull: false
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -31,7 +26,8 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
     tableName: 'menus',
     timestamps: true,
@@ -49,7 +45,7 @@ module.exports = function (sequelize, DataTypes) {
   })
 
   Menu.associate = function (models) {
-
+    Menu.hasMany(models.MenuItem, { as: 'menuItems', foreignKey: 'menuId' })
   }
 
   return Menu

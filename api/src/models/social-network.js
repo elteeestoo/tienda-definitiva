@@ -2,8 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const SocialNetwork = sequelize.define('SocialNetwork', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     name: {
@@ -30,9 +30,10 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
-    tableName: 'social_network',
+    tableName: 'social_networks',
     timestamps: true,
     paranoid: true,
     indexes: [

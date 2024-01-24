@@ -2,8 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const Tax = sequelize.define('Tax', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     countryId: {
@@ -42,7 +42,8 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
     tableName: 'taxes',
     timestamps: true,
@@ -55,12 +56,24 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
+      },
+      {
+        name: 'taxes_countryId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'countryId' }
+        ]
       }
     ]
   })
 
   Tax.associate = function (models) {
+    Tax.belongsTo(models.Country, { as: 'country', foreignKey: 'countryId' })
 
+    Tax.hasMany(models.CartDetail, { as: 'cartDetails', foreignKey: 'taxId' })
+    Tax.hasMany(models.Price, { as: 'prices', foreignKey: 'taxId' })
+    Tax.hasMany(models.ReturnDetail, { as: 'returnDetails', foreignKey: 'taxId' })
+    Tax.hasMany(models.SaleDetail, { as: 'saleDetails', foreignKey: 'taxId' })
   }
 
   return Tax

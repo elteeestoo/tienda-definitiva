@@ -2,8 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const LocaleSeoSlug = sequelize.define('LocaleSeoSlug', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     localeSeoId: {
@@ -55,7 +55,8 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
     tableName: 'locale_seo_slugs',
     timestamps: true,
@@ -68,12 +69,23 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
+      },
+      {
+        name: 'locale_seo_slugs_localeSeoId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'localeSeoId' }
+        ]
       }
     ]
   })
 
   LocaleSeoSlug.associate = function (models) {
+    LocaleSeoSlug.belongsTo(models.LocaleSeo, { as: 'localeSeo', foreignKey: 'localeSeoId' })
 
+    LocaleSeoSlug.hasMany(models.CustomerTracking, { as: 'customerTrackings', foreignKey: 'localeSeoSlugId' })
+    LocaleSeoSlug.hasMany(models.MenuItem, { as: 'menuItems', foreignKey: 'localeSeoSlugId' })
+    LocaleSeoSlug.hasMany(models.pageTracking, { as: 'pageTrackings', foreignKey: 'localeSeoSlugId' })
   }
 
   return LocaleSeoSlug

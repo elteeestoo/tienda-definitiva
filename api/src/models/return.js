@@ -2,8 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const Return = sequelize.define('Return', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     saleId: {
@@ -42,12 +42,6 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.TIME,
       allowNull: false
     },
-    startsAt: {
-      type: DataTypes.DATE
-    },
-    endsAt: {
-      type: DataTypes.DATE
-    },
     createdAt: {
       type: DataTypes.DATE,
       get () {
@@ -64,7 +58,8 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
     tableName: 'returns',
     timestamps: true,
@@ -77,12 +72,40 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
+      },
+      {
+        name: 'returns_saleId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'saleId' }
+        ]
+      },
+      {
+        name: 'returns_customerId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'customerId' }
+        ]
+      },
+      {
+        name: 'returns_paymentMethodId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'paymentMethodId' }
+        ]
       }
     ]
   })
 
   Return.associate = function (models) {
+    Return.belongsTo(models.Sale, { as: 'sale', foreignKey: 'saleId' })
+    Return.belongsTo(models.Customer, { as: 'customer', foreignKey: 'customerId' })
+    Return.belongsTo(models.PaymentMethod, { as: 'paymentMethod', foreignKey: 'paymentMethodId' })
 
+    Return.hasMany(models.Invoice, { as: 'invoices', foreignKey: 'returnId' })
+    Return.hasMany(models.ReturnDetail, { as: 'returnDetails', foreignKey: 'returnId' })
+    Return.hasMany(models.ReturnError, { as: 'returnErrors', foreignKey: 'returnId' })
+    Return.hasMany(models.Ticket, { as: 'tickets', foreignKey: 'returnId' })
   }
 
   return Return

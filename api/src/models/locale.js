@@ -1,9 +1,9 @@
 module.exports = function (sequelize, DataTypes) {
-  const locale = sequelize.define('locale', {
+  const Locale = sequelize.define('Locale', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     languageAlias: {
@@ -23,8 +23,7 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     },
     value: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.TEXT
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -42,7 +41,8 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
     tableName: 'locales',
     timestamps: true,
@@ -55,13 +55,27 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
+      },
+      {
+        name: 'locales_languageAlias_entity_entityId_key_index',
+        using: 'BTREE',
+        fields: [
+          { name: 'languageAlias' },
+          { name: 'entity' },
+          { name: 'entityId' },
+          { name: 'key' }
+        ]
       }
     ]
   })
 
-  locale.associate = function (models) {
+  Locale.associate = function (models) {
+    // algo
 
+    Locale.hasMany(models.CartDetail, { as: 'cartDetails', foreignKey: 'localeId' })
+    Locale.hasMany(models.ReturnDetail, { as: 'returnDetails', foreignKey: 'localeId' })
+    Locale.hasMany(models.SaleDetail, { as: 'saleDetails', foreignKey: 'localeId' })
   }
 
-  return locale
+  return Locale
 }

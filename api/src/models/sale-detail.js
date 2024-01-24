@@ -2,8 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const SaleDetail = sequelize.define('SaleDetail', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     saleId: {
@@ -23,7 +23,8 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     },
     priceDiscountId: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     taxId: {
       type: DataTypes.INTEGER,
@@ -61,7 +62,8 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
     tableName: 'sale_details',
     timestamps: true,
@@ -74,12 +76,59 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
+      },
+      {
+        name: 'sale_details_saleId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'saleId' }
+        ]
+      },
+      {
+        name: 'sale_details_productId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'productId' }
+        ]
+      },
+      {
+        name: 'sale_details_localeId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'localeId' }
+        ]
+      },
+      {
+        name: 'sale_details_priceId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'priceId' }
+        ]
+      },
+      {
+        name: 'sale_details_priceDiscountId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'priceDiscountId' }
+        ]
+      },
+      {
+        name: 'sale_details_taxId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'taxId' }
+        ]
       }
     ]
   })
 
   SaleDetail.associate = function (models) {
-
+    SaleDetail.belongsTo(models.Sale, { as: 'sale', foreignKey: 'saleId' })
+    SaleDetail.belongsTo(models.Product, { as: 'product', foreignKey: 'productId' })
+    SaleDetail.belongsTo(models.Locale, { as: 'locale', foreignKey: 'localeId' })
+    SaleDetail.belongsTo(models.Price, { as: 'price', foreignKey: 'priceId' })
+    SaleDetail.belongsTo(models.PriceDiscount, { as: 'priceDiscount', foreignKey: 'priceDiscountId' })
+    SaleDetail.belongsTo(models.Tax, { as: 'tax', foreignKey: 'taxId' })
   }
 
   return SaleDetail
