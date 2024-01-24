@@ -1,9 +1,9 @@
 module.exports = function (sequelize, DataTypes) {
-  const Language = sequelize.define('Language', {
+  const Contact = sequelize.define('Contact', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     name: {
@@ -12,7 +12,8 @@ module.exports = function (sequelize, DataTypes) {
     },
     alias: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -30,7 +31,8 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
     tableName: 'languages',
     timestamps: true,
@@ -47,9 +49,9 @@ module.exports = function (sequelize, DataTypes) {
     ]
   })
 
-  Language.associate = function (models) {
+  Contact.associate = function (models) {
 
   }
 
-  return Language
+  return Contact
 }

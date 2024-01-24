@@ -53,7 +53,6 @@ module.exports = function (sequelize, DataTypes) {
   })
 
   Faq.associate = function (models) {
-
   }
 
   return Faq

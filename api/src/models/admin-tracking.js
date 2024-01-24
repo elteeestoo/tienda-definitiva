@@ -2,8 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const AdminTracking = sequelize.define('AdminTracking', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     userId: {
@@ -58,20 +58,12 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'userId' }
         ]
-      },
-      {
-        name: 'admin_trackings_entity_entityId_index',
-        using: 'BTREE',
-        fields: [
-          { name: 'entity' },
-          { name: 'entityId' }
-        ]
       }
     ]
   })
-
+  // claves foraneas
   AdminTracking.associate = function (models) {
-
+    AdminTracking.belongsTo(models.User, { as: 'user', foreignKey: 'userId' })
   }
 
   return AdminTracking

@@ -2,8 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const DialCode = sequelize.define('DialCode', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     countryId: {
@@ -43,12 +43,22 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
+      },
+      {
+        name: 'dial_codes_countryId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'countryId' }
+        ]
       }
     ]
+
   })
 
   DialCode.associate = function (models) {
-
+    DialCode.belongsTo(models.Country, { as: 'country', foreignKey: 'countryId' })
+    DialCode.hasMany(models.Company, { as: 'companies', foreignKey: 'dialCodeId' })
+    DialCode.hasMany(models.Customer, { as: 'customers', foreignKey: 'dialCodeId' })
   }
 
   return DialCode

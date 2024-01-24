@@ -2,12 +2,13 @@ module.exports = function (sequelize, DataTypes) {
   const Contact = sequelize.define('Contact', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
-    fingerprintId: {
-      type: DataTypes.INTEGER
+    fingerPrintId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     name: {
       type: DataTypes.STRING,
@@ -41,7 +42,8 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
     tableName: 'contacts',
     timestamps: true,
@@ -73,7 +75,8 @@ module.exports = function (sequelize, DataTypes) {
   })
 
   Contact.associate = function (models) {
-
+    Contact.belongsTo(models.Fingerprint, { as: 'fingerprint', foreignKey: 'fingerprintId' })
+    // Contact.belongsTo(models.email, { as: 'dialCode', foreignKey: 'dialCodeId' })
   }
 
   return Contact

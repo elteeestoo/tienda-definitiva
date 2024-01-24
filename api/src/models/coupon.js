@@ -2,8 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const Coupon = sequelize.define('Coupon', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     name: {
@@ -63,7 +63,7 @@ module.exports = function (sequelize, DataTypes) {
   })
 
   Coupon.associate = function (models) {
-
+    Coupon.hasMany(models.Sale, { as: 'sales', foreignKey: 'couponId' })
   }
 
   return Coupon

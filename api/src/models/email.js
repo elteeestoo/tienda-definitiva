@@ -2,8 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const Email = sequelize.define('Email', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     subject: {
@@ -45,10 +45,12 @@ module.exports = function (sequelize, DataTypes) {
         ]
       }
     ]
+
   })
 
   Email.associate = function (models) {
-
+    Email.hasMany(models.EmailError, { as: 'emailErrors', foreignKey: 'emailId' })
+    Email.hasMany(models.SentEmail, { as: 'sentEmails', foreignKey: 'emailId' })
   }
 
   return Email

@@ -1,9 +1,9 @@
 module.exports = function (sequelize, DataTypes) {
-  const EmailErrors = sequelize.define('EmailErrors', {
+  const EmailError = sequelize.define('EmailError', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     customerId: {
@@ -47,13 +47,29 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
+      },
+      {
+        name: 'email_errors_customerId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'customerId' }
+        ]
+      },
+      {
+        name: 'email_errors_emailId_fk',
+        using: 'BTREE',
+        fields: [
+          { name: 'emailId' }
+        ]
       }
     ]
+
   })
 
-  EmailErrors.associate = function (models) {
-
+  EmailError.associate = function (models) {
+    EmailError.belongsTo(models.Customer, { as: 'customer', foreignKey: 'customerId' })
+    EmailError.belongsTo(models.Email, { as: 'email', foreignKey: 'emailId' })
   }
 
-  return EmailErrors
+  return EmailError
 }

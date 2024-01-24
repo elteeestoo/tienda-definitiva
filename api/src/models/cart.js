@@ -2,8 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const Cart = sequelize.define('Cart', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     uuid: {
@@ -48,14 +48,14 @@ module.exports = function (sequelize, DataTypes) {
         ]
       },
       {
-        name: 'carts_customerId_fk',
+        name: 'cart_customerId_fk',
         using: 'BTREE',
         fields: [
           { name: 'customerId' }
         ]
       },
       {
-        name: 'carts_fingerprintId_fk',
+        name: 'cart_fingerprintId_fk',
         using: 'BTREE',
         fields: [
           { name: 'fingerprintId' }
@@ -65,7 +65,12 @@ module.exports = function (sequelize, DataTypes) {
   })
 
   Cart.associate = function (models) {
+    Cart.belongsTo(models.Customer, { as: 'customer', foreignKey: 'customerId' })
+    Cart.belongsTo(models.Fingerprint, { as: 'fingerprint', foreignKey: 'fingerprintId' })
 
+    Cart.hasMany(models.CartDetail, { as: 'cartDetails', foreignKey: 'cartId' })
+    Cart.hasMany(models.SaleError, { as: 'saleErrors', foreignKey: 'cartId' })
+    Cart.hasMany(models.Sale, { as: 'sales', foreignKey: 'cartId' })
   }
 
   return Cart

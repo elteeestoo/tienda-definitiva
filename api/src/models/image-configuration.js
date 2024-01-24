@@ -2,8 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const ImageConfiguration = sequelize.define('ImageConfiguration', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     entity: {
@@ -40,7 +40,8 @@ module.exports = function (sequelize, DataTypes) {
           : null
       }
     }
-  }, {
+  },
+  {
     sequelize,
     tableName: 'image_configurations',
     timestamps: true,
@@ -53,12 +54,23 @@ module.exports = function (sequelize, DataTypes) {
         fields: [
           { name: 'id' }
         ]
+      },
+      {
+        name: 'image_configurations_entity_name_mediaQuery_index',
+        using: 'BTREE',
+        fields: [
+          { name: 'entity' },
+          { name: 'name' },
+          { name: 'mediaQuery' }
+        ]
       }
     ]
   })
 
   ImageConfiguration.associate = function (models) {
+    // Fingerprint.belongsTo(models.City, { as: 'City', foreignKey: 'cityId' })
 
+    ImageConfiguration.hasMany(models.Image, { as: 'images', foreignKey: 'imageConfigurationId' })
   }
 
   return ImageConfiguration

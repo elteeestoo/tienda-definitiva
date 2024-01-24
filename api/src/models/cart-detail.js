@@ -2,8 +2,8 @@ module.exports = function (sequelize, DataTypes) {
   const CartDetail = sequelize.define('CartDetail', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
     cartId: {
@@ -24,10 +24,6 @@ module.exports = function (sequelize, DataTypes) {
     },
     priceDiscountId: {
       type: DataTypes.INTEGER
-    },
-    taxId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
     },
     productName: {
       type: DataTypes.STRING,
@@ -82,7 +78,7 @@ module.exports = function (sequelize, DataTypes) {
         ]
       },
       {
-        name: 'cart_details_cartId_fk',
+        name: 'cart_details_productId_fk',
         using: 'BTREE',
         fields: [
           { name: 'productId' }
@@ -113,7 +109,11 @@ module.exports = function (sequelize, DataTypes) {
   })
 
   CartDetail.associate = function (models) {
-
+    CartDetail.belongsTo(models.Cart, { as: 'cart', foreignKey: 'cartId' })
+    CartDetail.belongsTo(models.Product, { as: 'product', foreignKey: 'productId' })
+    CartDetail.belongsTo(models.Locale, { as: 'locale', foreignKey: 'localeId' })
+    CartDetail.belongsTo(models.Price, { as: 'price', foreignKey: 'priceId' })
+    CartDetail.belongsTo(models.Tax, { as: 'tax', foreignKey: 'taxId' })
   }
 
   return CartDetail
