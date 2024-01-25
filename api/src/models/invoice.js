@@ -20,11 +20,21 @@ module.exports = function (sequelize, DataTypes) {
     },
     reference: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Por favor, rellena el campo "Dirección".'
+        }
+      }
     },
     path: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Por favor, rellena el campo "Dirección".'
+        }
+      }
     },
     createdAt: {
       type: DataTypes.DATE,

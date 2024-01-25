@@ -12,7 +12,12 @@ module.exports = function (sequelize, DataTypes) {
     },
     languageAlias: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Por favor, rellena el campo "Dirección".'
+        }
+      }
     },
     group: {
       type: DataTypes.STRING

@@ -8,15 +8,30 @@ module.exports = function (sequelize, DataTypes) {
     },
     languageAlias: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Por favor, rellena el campo "Dirección".'
+        }
+      }
     },
     url: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Por favor, rellena el campo "Dirección".'
+        }
+      }
     },
     title: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Por favor, rellena el campo "Dirección".'
+        }
+      }
     },
     description: {
       type: DataTypes.STRING

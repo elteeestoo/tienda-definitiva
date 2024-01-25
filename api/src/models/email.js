@@ -8,11 +8,21 @@ module.exports = function (sequelize, DataTypes) {
     },
     subject: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Por favor, rellena el campo "Dirección".'
+        }
+      }
     },
     path: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Por favor, rellena el campo "Dirección".'
+        }
+      }
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -51,6 +61,7 @@ module.exports = function (sequelize, DataTypes) {
   Email.associate = function (models) {
     Email.hasMany(models.EmailError, { as: 'emailErrors', foreignKey: 'emailId' })
     Email.hasMany(models.SentEmail, { as: 'sentEmails', foreignKey: 'emailId' })
+    Email.belongsToMany(models.Customer, { through: models.SentEmail, as: 'customers', foreignKey: 'emailId' })
   }
 
   return Email

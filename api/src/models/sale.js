@@ -24,27 +24,57 @@ module.exports = function (sequelize, DataTypes) {
     },
     reference: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Por favor, rellena el campo "Dirección".'
+        }
+      }
     },
     totalPrice: {
       type: DataTypes.DECIMAL(10, 2),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Por favor, rellena el campo "Dirección".'
+        }
+      }
     },
     totalBasePrice: {
       type: DataTypes.DECIMAL(10, 2),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Por favor, rellena el campo "Dirección".'
+        }
+      }
     },
     totalTaxPrice: {
       type: DataTypes.DECIMAL(10, 2),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Por favor, rellena el campo "Dirección".'
+        }
+      }
     },
     saleDate: {
       type: DataTypes.DATEONLY,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Por favor, rellena el campo "Dirección".'
+        }
+      }
     },
     saleTime: {
       type: DataTypes.TIME,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Por favor, rellena el campo "Dirección".'
+        }
+      }
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -113,7 +143,7 @@ module.exports = function (sequelize, DataTypes) {
     Sale.belongsTo(models.Customer, { as: 'customer', foreignKey: 'customerId' })
     Sale.belongsTo(models.PaymentMethod, { as: 'paymentMethod', foreignKey: 'paymentMethodId' })
     Sale.belongsTo(models.Coupon, { as: 'coupon', foreignKey: 'couponId' })
-
+    Sale.belongsToMany(models.Product, { through: models.SaleDetail, as: 'products', foreignKey: 'saleId' })
     Sale.hasMany(models.Invoice, { as: 'invoices', foreignKey: 'saleId' })
     Sale.hasMany(models.Return, { as: 'returns', foreignKey: 'saleId' })
     Sale.hasMany(models.SaleDetail, { as: 'saleDetails', foreignKey: 'saleId' })

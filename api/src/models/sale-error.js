@@ -20,7 +20,12 @@ module.exports = function (sequelize, DataTypes) {
     },
     errorCode: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Por favor, rellena el campo "Dirección".'
+        }
+      }
     },
     errorMessage: {
       type: DataTypes.STRING

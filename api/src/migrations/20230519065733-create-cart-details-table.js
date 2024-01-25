@@ -102,7 +102,7 @@ module.exports = {
     })
 
     await queryInterface.addIndex('cart_details', ['productId'], {
-      name: 'cart_details_cartId_fk'
+      name: 'cart_details_productId_fk'
     })
 
     await queryInterface.addIndex('cart_details', ['localeId'], {

@@ -20,7 +20,12 @@ module.exports = function (sequelize, DataTypes) {
     },
     action: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Por favor, rellena el campo "action".'
+        }
+      }
     },
     createdAt: {
       type: DataTypes.DATE,
