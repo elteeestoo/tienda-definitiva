@@ -66,6 +66,7 @@ p {
 .form-buttons {
   background-color: hsl(0, 0%, 100%);
   border: none;
+  height: 3rem;
   border-radius: 5px;
   display: flex;
   gap: 0.5rem;
@@ -207,47 +208,48 @@ p {
 
 
         </style>
-    <section class="form-inside">
+  <section class="form-inside">
     <div class="form-buttons">
-    <div class="form-buttons-change">
-      <!-- cambiar tanta clase anidada, no es necesario -->
-      <div class="form-buttons-main">
-        <button class="form-button-active" data-tab="tab-main">
-          Principal
-        </button>
+      <div class="form-buttons-change">
+        <!-- cambiar tanta clase anidada, no es necesario -->
+        <div class="form-buttons-main">
+          <button class="form-button-active" data-tab="tab-main">
+            Principal
+          </button>
+        </div>
+        <div class="form-buttons-images">
+          <button data-tab="tab-images">
+            Imagenes
+          </button>
+        </div>
+        <div class="form-buttons-git">
+          <button data-tab="tab-git">
+            GIT
+          </button>
+        </div>
       </div>
-      <div class="form-buttons-images">
-        <button data-tab="tab-images">
-          Imagenes
-        </button>
-      </div>
-      <div class="form-buttons-git">
-        <button data-tab="tab-git">
-          GIT
-        </button>
+      <div class="form-buttons-actions">
+        <div class="form-clean-button">
+          <button>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <title>broom</title>
+              <path
+                d="M19.36,2.72L20.78,4.14L15.06,9.85C16.13,11.39 16.28,13.24 15.38,14.44L9.06,8.12C10.26,7.22 12.11,7.37 13.65,8.44L19.36,2.72M5.93,17.57C3.92,15.56 2.69,13.16 2.35,10.92L7.23,8.83L14.67,16.27L12.58,21.15C10.34,20.81 7.94,19.58 5.93,17.57Z" />
+            </svg>
+          </button>
+        </div>
+        <div class="form-save-button">
+          <button>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <title>save</title>
+              <path
+                d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
-    <div class="form-buttons-actions">
-      <div class="form-clean-button">
-        <button>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <title>broom</title>
-            <path
-              d="M19.36,2.72L20.78,4.14L15.06,9.85C16.13,11.39 16.28,13.24 15.38,14.44L9.06,8.12C10.26,7.22 12.11,7.37 13.65,8.44L19.36,2.72M5.93,17.57C3.92,15.56 2.69,13.16 2.35,10.92L7.23,8.83L14.67,16.27L12.58,21.15C10.34,20.81 7.94,19.58 5.93,17.57Z" />
-          </svg>
-        </button>
-      </div>
-      <div class="form-save-button">
-        <button>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <title>save</title>
-            <path
-              d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" />
-          </svg>
-        </button>
-      </div>
-    </div>
-  </div>
+  </section>
   <!-- seccion main index 0 -->
   <div class="data-tabs">
     <section class="tab-content display" data-tab="tab-main">
@@ -296,8 +298,48 @@ p {
           </div>
         </div>
       </div>
-
     </section>
+    <div class="language-buttons">
+      <div class="form-buttons">
+        <div class="form-buttons-change">
+          <!-- cambiar tanta clase anidada, no es necesario -->
+          <div class="form-buttons-main">
+            <button class="form-button-active" data-tab="tab-main">
+              ES
+            </button>
+          </div>
+          <div class="form-buttons-images">
+            <button data-tab="tab-images">
+              EN
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-element">
+        <div class="form-element-label">
+          <label for="title">
+            Titulo
+          </label>
+        </div>
+        <div class="form-element-input">
+          <input type="text" value="">
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-element">
+        <div class="form-element-label">
+          <label for="description">
+            Descripción
+          </label>
+        </div>
+        <div class="form-element-input">
+          <input type="textarea" value="">
+        </div>
+      </div>
+    </div>
     <!-- section images index 1 -->
     <section class="tab-content images" data-tab="tab-images">
       <div class="images-TODO">
