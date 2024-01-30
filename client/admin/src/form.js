@@ -67,7 +67,6 @@ p {
   background-color: hsl(0, 0%, 100%);
   border: none;
   height: 3rem;
-  border-radius: 5px;
   display: flex;
   gap: 0.5rem;
   margin-bottom: 1rem;
@@ -104,6 +103,7 @@ p {
 .form-buttons-actions {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   width: 50%;
 }
 
