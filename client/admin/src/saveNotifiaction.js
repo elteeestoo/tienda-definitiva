@@ -35,8 +35,9 @@ class SaveNotification extends HTMLElement {
             right: 20px;
             background-color: #090;
             color: #fff;
-            padding: 10px;
-            border-radius: 5px;
+            font-family: "Roboto";
+            padding: 25px;
+            border-radius: 2px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             transition: display 0.3s ease-in-out;
           }
@@ -47,7 +48,7 @@ class SaveNotification extends HTMLElement {
         </style>
   
         <div class="notification-container">
-          <p>Se haguardado correctamente</p>
+          <p>Se ha guardado correctamente</p>
         </div>
       `
 
