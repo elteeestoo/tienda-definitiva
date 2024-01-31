@@ -87,11 +87,14 @@ p {
     display: flex;
     align-items: center;
     padding: 0.5rem 1.5rem;
+    font-family: "Roboto";
+    cursor: pointer;
 }
 
 .tab{
     color: blue;
 }
+
 
 .tab.active button{
     color: white;
@@ -314,14 +317,10 @@ textarea{
         <div class="form-language-bar">
           <div class="tabs">
             <div class="tab active" data-tab="es">
-              <button>
                 ES
-              </button>
             </div>
             <div class="tab" data-tab="en">
-              <button>
                 EN
-              </button>
             </div>
           </div>
         </div>
@@ -462,7 +461,6 @@ textarea{
         const tabClicked = event.target.closest('.tab')
         const tabActive = tabClicked.parentElement.querySelector('.active')
 
-        console.log(tabClicked)
         tabClicked.classList.add('active')
         tabActive.classList.remove('active')
 
