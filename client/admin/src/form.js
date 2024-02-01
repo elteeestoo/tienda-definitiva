@@ -388,9 +388,7 @@ textarea{
                 Imagen Principal
               </label>
             </div>
-            <div class="form-element-input">
-              <input type="image" name="" value="">
-            </div>
+            <image-component></image-component>
           </div>
         </div>
       </div>
