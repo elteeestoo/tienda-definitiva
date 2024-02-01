@@ -1,4 +1,4 @@
-class ImageComponent extends HTMLElement {
+class ImageModalComponent extends HTMLElement {
   constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
@@ -72,25 +72,22 @@ class ImageComponent extends HTMLElement {
                 }
 
                 /* mdoal filtro VVVVVVVV*/
-                .image-button svg{
-                  width: 10rem;
+                .modal-container.active{
+                  width: 100%;
                   fill: white;
                 }
 
             </style>
         
             <!-- ventana modal del filtro -->
-            <button class="image-button">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>open-in-app</title><path d="M12,10L8,14H11V20H13V14H16M19,4H5C3.89,4 3,4.9 3,6V18A2,2 0 0,0 5,20H9V18H5V8H19V18H15V20H19A2,2 0 0,0 21,18V6A2,2 0 0,0 19,4Z" /></svg>
-            </button>
+            <div class="modal-container">
+              <div class="image-modal">
+                
+              </div>
+            </div>
+
             `
     // modal
-    const imageButton = this.shadow.querySelector('.image-button')
-
-    imageButton?.addEventListener('click', () => {
-      document.dispatchEvent(new CustomEvent('showImageModal', {
-      }))
-    })
 
     const buttonAccept = this.shadow.querySelector('.filter-inside-buttons-accept')
     const buttonDecline = this.shadow.querySelector('.filter-inside-buttons-decline')
@@ -119,4 +116,4 @@ class ImageComponent extends HTMLElement {
   }
 }
 
-customElements.define('image-component', ImageComponent)
+customElements.define('image-modal-component', ImageModalComponent)
