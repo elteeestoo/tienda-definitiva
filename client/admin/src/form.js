@@ -156,7 +156,9 @@ p {
   width: 100%;
 }
 
-.form-element-input * {
+.form-element-input input,
+.form-element-input select,
+.form-element-input textarea {
   background-color: hsl(226, 64%, 66%);
   border: none;
   border-radius: 5px;
@@ -388,7 +390,29 @@ textarea{
                 Imagen Principal
               </label>
             </div>
-            <image-component></image-component>
+            <div class="form-element-input">
+              <image-component></image-component>
+            </div>
+          </div>
+          <div class="form-element">
+            <div class="form-element-label">
+              <label for="main-image">
+                Imagen Principal
+              </label>
+            </div>
+            <div class="form-element-input">
+              <image-component></image-component>
+            </div>
+          </div>
+          <div class="form-element">
+            <div class="form-element-label">
+              <label for="main-image">
+                Imagen Principal
+              </label>
+            </div>
+            <div class="form-element-input">
+              <image-component></image-component>
+            </div>
           </div>
         </div>
       </div>
