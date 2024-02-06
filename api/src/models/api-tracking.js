@@ -65,12 +65,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     message: {
       type: DataTypes.TEXT,
-      allowNull: true,
-      validate: {
-        notNull: {
-          msg: 'Por favor, rellena el campo "message".'
-        }
-      }
+      allowNull: true
     },
     startTime: {
       type: DataTypes.DOUBLE,
