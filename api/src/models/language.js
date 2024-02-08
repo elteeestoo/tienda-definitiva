@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Contact = sequelize.define('Contact', {
+  const Language = sequelize.define('Language', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -59,9 +59,9 @@ module.exports = function (sequelize, DataTypes) {
     ]
   })
 
-  Contact.associate = function (models) {
+  Language.associate = function (models) {
 
   }
 
-  return Contact
+  return Language
 }

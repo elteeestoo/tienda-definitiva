@@ -72,6 +72,7 @@ exports.update = (req, res) => {
       })
     }
   }).catch(_ => {
+    console.log(_)
     res.status(500).send({
       message: 'Algún error ha surgido al actualiazar la id=' + id
     })
