@@ -2,10 +2,18 @@ class TableRecords extends HTMLElement {
   constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
+    this.rows = null
   }
 
   connectedCallback () {
-    this.render()
+    this.loadData().then(() => this.render())
+  }
+
+  async loadData () {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}${this.getAttribute('endpoint')}`)
+    const data = await response.json()
+    this.rows = data.rows
+    console.log(data)
   }
 
   render () {
@@ -90,11 +98,48 @@ p {
   flex: 1;
   flex-direction: column;
   gap: 1rem;
+  margin-bottom: 2rem
+}
+
+.table-records{
+  padding: 0.5rem;
+  border-radius: 10px;
+  max-height: 600px;
+  margin-left: -2rem;
+  padding-left: 1rem;
+  padding-right: 1.5rem;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 12px;
+  border-radius: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+  border: solid 2px black
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: hsl(228, 71%, 51%);
+  border-radius: 10px;
+  border: solid 2px hsl(226, 64%, 66%)
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(227, 51%, 21%);
 }
 .table-record{
   border: solid 3px white;
   border-radius: 10px;
-  width: 100%
+  width: 100%;
+  margin-bottom: 1rem
 }
 
 .table-record:hover{
@@ -150,7 +195,7 @@ p {
     
 
         <section class="table-component">
-            <section class="filter">
+          <section class="filter">
             <div class="filter-button">
                 <button>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -160,10 +205,10 @@ p {
                 </svg>
                 </button>
             </div>
-            </section>
-
-
-            <article class="table-record">
+          </section>
+        </section>
+        <section class="table-records">
+          <!--<article class="table-record">
             <div class="table-buttons">
                 <div class="edit-button">
                 <button>
@@ -187,88 +232,57 @@ p {
                 <li><span>Nombre</span>Carlos</li>
                 </ul>
             </div>
-            </article>
-
-
-
-
-            <article class="table-record">
-            <div class="table-buttons">
-                <div class="edit-button">
-                <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                        d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
-                    </svg>
-                </button>
-                </div>
-                <div class="delete-button">
-                <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
-                    </svg>
-                </button>
-                </div>
-            </div>
-            <div class="table-data">
-                <ul>
-                <li><span>Email</span>bolitakinki69@hotmail.com</li>
-                <li><span>Nombre</span>Carlos</li>
-                </ul>
-            </div>
-            </article>
-            <article class="table-record">
-            <div class="table-buttons">
-                <div class="edit-button">
-                <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                        d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
-                    </svg>
-                </button>
-                </div>
-                <div class="delete-button">
-                <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
-                    </svg>
-                </button>
-                </div>
-            </div>
-            <div class="table-data">
-                <ul>
-                <li><span>Email</span>bolitakinki69@hotmail.com</li>
-                <li><span>Nombre</span>Carlos</li>
-                </ul>
-            </div>
-            </article>
-            <article class="table-record">
-            <div class="table-buttons">
-                <div class="edit-button">
-                <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                        d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
-                    </svg>
-                </button>
-                </div>
-                <div class="delete-button">
-                <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
-                    </svg>
-                </button>
-                </div>
-            </div>
-            <div class="table-data">
-                <ul>
-                <li><span>Email</span>bolitakinki69@hotmail.com</li>
-                <li><span>Nombre</span>Carlos</li>
-                </ul>
-            </div>
-            </article>
+          </article>-->
         </section>
         `
+    this.rows.forEach(row => {
+    // Crear elementos dinámicamente con JavaScript
+      const section = this.shadow.querySelector('.table-records')
+
+      const article = document.createElement('article')
+      article.classList.add('table-record')
+
+      const buttonsDiv = document.createElement('div')
+      buttonsDiv.classList.add('table-buttons')
+
+      const editButtonDiv = document.createElement('div')
+      editButtonDiv.classList.add('edit-button')
+      const editButton = document.createElement('button')
+      editButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" /></svg>'
+      editButton.setAttribute('data-id', row.id)
+      editButton.setAttribute('data-action', 'edit')
+      editButtonDiv.appendChild(editButton)
+
+      const deleteButtonDiv = document.createElement('div')
+      deleteButtonDiv.classList.add('delete-button')
+      const deleteButton = document.createElement('button')
+      deleteButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" /></svg>'
+      deleteButton.setAttribute('data-id', row.id) // Establece el atributo data-id con el ID correspondiente
+      deleteButton.setAttribute('data-action', 'delete') // Establece el atributo data-action con la acción 'delete'
+      deleteButtonDiv.appendChild(deleteButton)
+
+      buttonsDiv.appendChild(editButtonDiv)
+      buttonsDiv.appendChild(deleteButtonDiv)
+
+      const tableDataDiv = document.createElement('div')
+      tableDataDiv.classList.add('table-data')
+
+      const ul = document.createElement('ul')
+      const nameLi = document.createElement('li')
+      nameLi.innerHTML = '<span>Nombre</span>' + row.name
+      const emailLi = document.createElement('li')
+      emailLi.innerHTML = '<span>Email</span>' + row.email
+
+      ul.appendChild(nameLi)
+      ul.appendChild(emailLi)
+
+      tableDataDiv.appendChild(ul)
+
+      article.appendChild(buttonsDiv)
+      article.appendChild(tableDataDiv)
+      section.appendChild(article)
+    })
+
     const filterButton = this.shadow.querySelector('.filter-button')
 
     filterButton?.addEventListener('click', () => {

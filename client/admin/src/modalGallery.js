@@ -8,7 +8,7 @@ class Gallery extends HTMLElement {
   connectedCallback () {
     this.render()
 
-    document.addEventListener('showGalleryModal', this.handleShowGalleryModal.bind(this))
+    document.addEventListener('showImageModal', this.handleShowGalleryModal.bind(this))
   }
 
   handleShowGalleryModal (event) {

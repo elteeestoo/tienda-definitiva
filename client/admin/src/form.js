@@ -2,7 +2,6 @@ class Form extends HTMLElement {
   constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
-    this.title = this.getAttribute('title')
   }
 
   connectedCallback () {
@@ -156,6 +155,19 @@ class Form extends HTMLElement {
             width: 100%;
           }
 
+          .errors-container{
+            display: none;
+          }
+          .errors-container.active{
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            background-color: red;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+          }
           .form-element-input input,
           .form-element-input select,
           .form-element-input textarea {
@@ -216,6 +228,7 @@ class Form extends HTMLElement {
                   </div>
                 </div>
               </div>
+              <div class="errors-container"></div>
               <input type="hidden" name="id" value="">
               <div class="tab-contents">
                 <div class="tab-content active" data-tab="general">
@@ -336,11 +349,15 @@ class Form extends HTMLElement {
             </form>
           </div>
         `
+    // const closeButton = this.shadow.querySelector('.close-btn')
+    // closeButton.addEventListener('click', () => {
+    //   const modalError = this.shadow.querySelector('.errors-modal')
+    //   modalError.classList.remove('active')// Ocultar el modal al hacer clic en el botón de cierre
+    // })
+    const main = this.shadow.querySelector('.form')
 
-        const formButton = this.shadow.querySelector('.form')
-    // console.log(main)
-    // console.log(main)
-    formButton?.addEventListener('click', async (event) => {
+    main?.addEventListener('click', async (event) => {
+      event.preventDefault()
       const buttonSave = this.shadow.querySelector('.store-button')
 
       // Si el evento se origina dentro del botón de guardar
@@ -353,7 +370,7 @@ class Form extends HTMLElement {
         delete formDataJson.id
 
         try {
-          const response = await fetch('http://127.0.0.1:8080/api/admin/faqs', {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}${this.getAttribute('endpoint')}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -369,74 +386,65 @@ class Form extends HTMLElement {
 
           const saveNotificationEvent = new CustomEvent('custom-notification', {
             detail: {
-              message: 'Se ha guardado correctamente',
-              color: 'green'
+              message: 'Se ha guardado correctamente'
             }
           })
 
           document.dispatchEvent(saveNotificationEvent)
         } catch (response) {
+          const modalError = this.shadow.querySelector('.errors-container')
+          modalError.innerHTML = ''
           const errors = await response.json()
+
           errors.message.forEach(error => {
             console.log(error.message)
+            const liElement = document.createElement('li')
+            liElement.textContent = error.message
+            const modalError = this.shadow.querySelector('.errors-container')
+            modalError.classList.add('active')
+            modalError.appendChild(liElement)
           })
         }
       }
 
-    // const formSection = this.shadow.querySelector('.form')
+      if (event.target.closest('.errors-container')) {
+        const modalError = this.shadow.querySelector('.errors-container')
+        modalError.classList.remove('active')
+      }
+      // boton de clean
+      // const buttonBroom = this.shadow.querySelector('.create-button')
 
-    // formSection?.addEventListener('click', async (event) => {
-    //   event.preventDefault()
+      // buttonBroom?.addEventListener('click', (event) => {
+      if (event.target.closest('.create-button')) {
+        event.preventDefault()
+        const broomNotificationEvent = new CustomEvent('custom-notification', {
+          detail: {
+            message: 'Se ha limpiado correctamente',
+            color: 'red'
+          }
+        })
 
-    //   if (event.target.closest('.tab')) {
-    //     if (event.target.closest('.tab').classList.contains('active')) {
-    //       return
-    //     }
+        document.dispatchEvent(broomNotificationEvent)
+      }
 
-    //     const tabClicked = event.target.closest('.tab')
-    //     const tabActive = tabClicked.parentElement.querySelector('.active')
+      // event.preventDefault()
 
-    //     tabClicked.classList.add('active')
-    //     tabActive.classList.remove('active')
+      if (event.target.closest('.tab')) {
+        if (event.target.closest('.tab').classList.contains('active')) {
+          return
+        }
 
-    //     this.shadow.querySelector(`.tab-content.active[data-tab="${tabActive.dataset.tab}"]`).classList.remove('active')
-    //     this.shadow.querySelector(`.tab-content[data-tab="${tabClicked.dataset.tab}"]`).classList.add('active')
-    //   }
+        const tabClicked = event.target.closest('.tab')
+        const tabActive = tabClicked.parentElement.querySelector('.active')
 
-    //   if (event.target.closest('.store-button')) {
-    //     const form = this.shadow.querySelector('.admin-form')
-    //     const formData = new FormData(form)
-    //     const formDataJson = Object.fromEntries(formData.entries())
-    //     delete formDataJson.id
-    //     fetch('http://127.0.0.1:8080/api/admin/faqs', {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json'
-    //       },
-    //       body: JSON.stringify(formDataJson)
-    //     }).then(response => {
-    //       if (response.status === 500 || response.status === 422) {
-    //         throw response.json()
-    //       }
+        tabClicked.classList.add('active')
+        tabActive.classList.remove('active')
 
-    //       if (response.status === 200) {
-    //         return response.json()
-    //       }
-    //     }).then(data => {
-    //       Object.entries(data).forEach(([key, value]) => {
-    //         console.log(`${key}: ${value}`)
-    //       })
-    //       document.dispatchEvent(new CustomEvent('save-notification', {
-
-    //       }))
-    //     })
-    //   }
-
-    //   if (event.target.closest('.create-button')) {
-    //     alert('HAS PULSADO LIMPIAR')
-    //   }
-    // })
-  })*-  
+        this.shadow.querySelector(`.tab-content.active[data-tab="${tabActive.dataset.tab}"]`).classList.remove('active')
+        this.shadow.querySelector(`.tab-content[data-tab="${tabClicked.dataset.tab}"]`).classList.add('active')
+      }
+    })
+  }
 }
 
 customElements.define('form-component', Form)

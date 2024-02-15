@@ -7,7 +7,7 @@ class SaveNotification extends HTMLElement {
 
   connectedCallback () {
     // Agrega un listener para el evento personalizado "save-notification"
-    document.addEventListener('save-notification', () => {
+    document.addEventListener('custom-notification', () => {
       this.showNotification()
     })
 

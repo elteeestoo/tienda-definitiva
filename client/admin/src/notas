@@ -1,0 +1,102 @@
+     const formButton = this.shadow.querySelector('.form')
+      console.log(main)
+      console.log(main)
+     formButton?.addEventListener('click', async (event) => {
+       const buttonSave = this.shadow.querySelector('.store-button')
+
+       // Si el evento se origina dentro del botón de guardar
+       if (event.target.closest('.store-button')) {
+         event.preventDefault()
+
+         const form = this.shadow.querySelector('.admin-form')
+         const formData = new FormData(form)
+         const formDataJson = Object.fromEntries(formData.entries())
+         delete formDataJson.id
+
+         try {
+           const response = await fetch('http://127.0.0.1:8080/api/admin/faqs', {
+           method: 'POST',
+             headers: {
+               'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(formDataJson)
+    //       })
+
+    //       if (response.status === 500 || response.status === 422) {
+    //         throw response
+    //       }
+
+    //       const data = await response.json()
+
+    //       const saveNotificationEvent = new CustomEvent('custom-notification', {
+    //         detail: {
+    //           message: 'Se ha guardado correctamente',
+    //           color: 'green'
+    //         }
+    //       })
+
+    //       document.dispatchEvent(saveNotificationEvent)
+    //     } catch (response) {
+    //       const errors = await response.json()
+    //       errors.message.forEach(error => {
+    //         console.log(error.message)
+    //       })
+    //     }
+    //   }
+
+      // const formSection = this.shadow.querySelector('.form')
+
+      // formSection?.addEventListener('click', async (event) => {
+      //   event.preventDefault()
+
+      //   if (event.target.closest('.tab')) {
+      //     if (event.target.closest('.tab').classList.contains('active')) {
+      //       return
+      //     }
+
+      //     const tabClicked = event.target.closest('.tab')
+      //     const tabActive = tabClicked.parentElement.querySelector('.active')
+
+      //     tabClicked.classList.add('active')
+      //     tabActive.classList.remove('active')
+
+      //     this.shadow.querySelector(`.tab-content.active[data-tab="${tabActive.dataset.tab}"]`).classList.remove('active')
+      //     this.shadow.querySelector(`.tab-content[data-tab="${tabClicked.dataset.tab}"]`).classList.add('active')
+      //   }
+
+      //   if (event.target.closest('.store-button')) {
+      //     const form = this.shadow.querySelector('.admin-form')
+      //     const formData = new FormData(form)
+      //     const formDataJson = Object.fromEntries(formData.entries())
+      //     delete formDataJson.id
+      //     fetch('http://127.0.0.1:8080/api/admin/faqs', {
+      //       method: 'POST',
+      //       headers: {
+      //         'Content-Type': 'application/json'
+      //       },
+      //       body: JSON.stringify(formDataJson)
+      //     }).then(response => {
+      //       if (response.status === 500 || response.status === 422) {
+      //         throw response.json()
+      //       }
+
+      //       if (response.status === 200) {
+      //         return response.json()
+      //       }
+      //     }).then(data => {
+      //       Object.entries(data).forEach(([key, value]) => {
+      //         console.log(`${key}: ${value}`)
+      //       })
+      //       document.dispatchEvent(new CustomEvent('save-notification', {
+
+      //       }))
+      //     })
+      //   }
+
+    //   if (event.target.closest('.create-button')) {
+    //     alert('HAS PULSADO LIMPIAR')
+    //   }
+    // })
+    })
+  }
+}
