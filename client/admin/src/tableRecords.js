@@ -7,13 +7,17 @@ class TableRecords extends HTMLElement {
 
   connectedCallback () {
     this.loadData().then(() => this.render())
+    document.addEventListener('refresh-table', this.handleRefreshTable.bind(this))
+  }
+
+  handleRefreshTable (event) {
+    this.loadData().then(() => this.render())
   }
 
   async loadData () {
     const response = await fetch(`${import.meta.env.VITE_API_URL}${this.getAttribute('endpoint')}`)
     const data = await response.json()
     this.rows = data.rows
-    console.log(data)
   }
 
   render () {
@@ -208,31 +212,7 @@ p {
           </section>
         </section>
         <section class="table-records">
-          <!--<article class="table-record">
-            <div class="table-buttons">
-                <div class="edit-button">
-                <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                        d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
-                    </svg>
-                </button>
-                </div>
-                <div class="delete-button">
-                <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
-                    </svg>
-                </button>
-                </div>
-            </div>
-            <div class="table-data">
-                <ul>
-                <li><span>Email</span>bolitakinki69@hotmail.com</li>
-                <li><span>Nombre</span>Carlos</li>
-                </ul>
-            </div>
-          </article>-->
+
         </section>
         `
     this.rows.forEach(row => {
@@ -247,18 +227,16 @@ p {
 
       const editButtonDiv = document.createElement('div')
       editButtonDiv.classList.add('edit-button')
+      editButtonDiv.dataset.id = row.id
       const editButton = document.createElement('button')
       editButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" /></svg>'
-      editButton.setAttribute('data-id', row.id)
-      editButton.setAttribute('data-action', 'edit')
       editButtonDiv.appendChild(editButton)
 
       const deleteButtonDiv = document.createElement('div')
       deleteButtonDiv.classList.add('delete-button')
+      deleteButtonDiv.dataset.id = row.id
       const deleteButton = document.createElement('button')
       deleteButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" /></svg>'
-      deleteButton.setAttribute('data-id', row.id) // Establece el atributo data-id con el ID correspondiente
-      deleteButton.setAttribute('data-action', 'delete') // Establece el atributo data-action con la acción 'delete'
       deleteButtonDiv.appendChild(deleteButton)
 
       buttonsDiv.appendChild(editButtonDiv)
@@ -290,10 +268,20 @@ p {
       }))
     })
 
-    const tableSection = this.shadow.querySelector('.table-component')
-    tableSection?.addEventListener('click', async (event) => {
+    const tableRecord = this.shadow.querySelector('.table-records')
+
+    tableRecord?.addEventListener('click', async (event) => {
       if (event.target.closest('.edit-button')) {
-        alert('Has pulsado edition')
+        const editButtonDiv = event.target.closest('.edit-button')
+        const id = editButtonDiv.dataset.id
+        const response = await fetch(`${import.meta.env.VITE_API_URL}${this.getAttribute('endpoint')}/${id}`)
+        const data = await response.json()
+
+        document.dispatchEvent(new CustomEvent('showElement', {
+          detail: {
+            data
+          }
+        }))
       }
 
       if (event.target.closest('.delete-button')) {

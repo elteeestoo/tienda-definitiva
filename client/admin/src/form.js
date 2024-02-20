@@ -6,6 +6,11 @@ class Form extends HTMLElement {
 
   connectedCallback () {
     this.render()
+    document.addEventListener('showElement', this.handleShowElement.bind(this))
+  }
+
+  handleShowElement (event) {
+    this.showElement(event.detail.data)
   }
 
   render () {
@@ -369,9 +374,13 @@ class Form extends HTMLElement {
         const formDataJson = Object.fromEntries(formData.entries())
         delete formDataJson.id
 
+        const endpoint = formDataJson.id ? `${import.meta.env.VITE_API_URL}${this.getAttribute('endpoint')}/${formDataJson.id}` : `${import.meta.env.VITE_API_URL}${this.getAttribute('endpoint')}`
+        const method = formDataJson.id ? 'PUT' : 'POST'
+        delete formDataJson.id
+
         try {
-          const response = await fetch(`${import.meta.env.VITE_API_URL}${this.getAttribute('endpoint')}`, {
-            method: 'POST',
+          const response = await fetch(endpoint, {
+            method,
             headers: {
               'Content-Type': 'application/json'
             },
@@ -383,7 +392,7 @@ class Form extends HTMLElement {
           }
 
           const data = await response.json()
-
+          this.render()
           const saveNotificationEvent = new CustomEvent('custom-notification', {
             detail: {
               message: 'Se ha guardado correctamente'
@@ -391,6 +400,7 @@ class Form extends HTMLElement {
           })
 
           document.dispatchEvent(saveNotificationEvent)
+          document.dispatchEvent(new CustomEvent('refresh-table'))
         } catch (response) {
           const modalError = this.shadow.querySelector('.errors-container')
           modalError.innerHTML = ''
@@ -442,6 +452,19 @@ class Form extends HTMLElement {
 
         this.shadow.querySelector(`.tab-content.active[data-tab="${tabActive.dataset.tab}"]`).classList.remove('active')
         this.shadow.querySelector(`.tab-content[data-tab="${tabClicked.dataset.tab}"]`).classList.add('active')
+      }
+    })
+  }
+
+  showElement (element) {
+    Object.entries(element).forEach(entry => {
+      console.log(entry)
+      const key = entry[0]
+      const value = entry[1]
+      // Verificar si el nombre de la clave coincide con el atributo 'name' del input
+      const input = this.shadow.querySelector(`input[name="${key}"]`)
+      if (input) {
+        input.value = value
       }
     })
   }
