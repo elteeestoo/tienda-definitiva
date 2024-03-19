@@ -1,4 +1,4 @@
-const db = require('../../models')
+const db = require('../../models/sequelize')
 const LocaleSeoSlug = db.LocaleSeoSlug
 const Op = db.Sequelize.Op
 

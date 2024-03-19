@@ -1,4 +1,4 @@
-const db = require('../../models')
+const db = require('../../models/sequelize')
 const Fingerprint = db.Fingerprint
 const Op = db.Sequelize.Op
 

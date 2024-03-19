@@ -1,4 +1,4 @@
-const db = require('../../models')
+const db = require('../../models/sequelize')
 const ProductCategoryRelation = db.ProductCategoryRelation
 const Op = db.Sequelize.Op
 

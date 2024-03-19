@@ -270,7 +270,7 @@ class Form extends HTMLElement {
                               </label>
                             </div>
                             <div class="form-element-input">
-                              <input type="text" name="pregunta" value="">
+                              <input type="text" name="locales.es.question" value="">
                             </div>
                           </div>
                         </div>
@@ -282,7 +282,7 @@ class Form extends HTMLElement {
                               </label>
                             </div>
                             <div class="form-element-input">
-                              <textarea name="respuesta" type="textarea" class="event-description" data-onlyletters="true"></textarea>
+                              <textarea name="locales.es.answer" type="textarea" class="event-description" data-onlyletters="true"></textarea>
                             </div>
                           </div>
                         </div>
@@ -296,7 +296,7 @@ class Form extends HTMLElement {
                               </label>
                             </div>
                             <div class="form-element-input">
-                              <input type="text" name="question" value="">
+                              <input type="text" name="locales.en.question" value="">
                             </div>
                           </div>
                         </div>
@@ -308,7 +308,7 @@ class Form extends HTMLElement {
                               </label>
                             </div>
                             <div class="form-element-input">
-                              <textarea name="answer" type="textarea" class="event-description" data-onlyletters="true"></textarea>
+                              <textarea name="locales.en.answer" type="textarea" class="event-description" data-onlyletters="true"></textarea>
                             </div>
                           </div>
                         </div>
@@ -325,27 +325,7 @@ class Form extends HTMLElement {
                         </label>
                       </div>
                       <div class="form-element-input">
-                        <image-component></image-component>
-                      </div>
-                    </div>
-                    <div class="form-element">
-                      <div class="form-element-label">
-                        <label for="main-image">
-                          Imagen Principal
-                        </label>
-                      </div>
-                      <div class="form-element-input">
-                        <image-component></image-component>
-                      </div>
-                    </div>
-                    <div class="form-element">
-                      <div class="form-element-label">
-                        <label for="main-image">
-                          Imagen Principal
-                        </label>
-                      </div>
-                      <div class="form-element-input">
-                        <image-component></image-component>
+                        <upload-image-component></upload-image-component>
                       </div>
                     </div>
                   </div>
@@ -363,7 +343,6 @@ class Form extends HTMLElement {
 
     main?.addEventListener('click', async (event) => {
       event.preventDefault()
-      const buttonSave = this.shadow.querySelector('.store-button')
 
       // Si el evento se origina dentro del botón de guardar
       if (event.target.closest('.store-button')) {
@@ -371,8 +350,35 @@ class Form extends HTMLElement {
 
         const form = this.shadow.querySelector('.admin-form')
         const formData = new FormData(form)
-        const formDataJson = Object.fromEntries(formData.entries())
-        delete formDataJson.id
+        const formDataJson = {}
+
+        for (const [key, value] of formData.entries()) {
+          if (key.includes('locales')) {
+            const [prefix, locales, field] = key.split('.')
+
+            if (!(prefix in formDataJson)) {
+              formDataJson[prefix] = {}
+            }
+
+            if (!(locales in formDataJson[prefix])) {
+              formDataJson[prefix][locales] = {}
+            }
+
+            formDataJson[prefix][locales][field] = value ?? null
+          } else if (key.includes('.')) {
+            const [prefix, field] = key.split('.')
+
+            if (!(prefix in formDataJson)) {
+              formDataJson[prefix] = {}
+            }
+
+            formDataJson[prefix][field] = value ?? null
+          } else {
+            formDataJson[key] = value ?? null
+          }
+        }
+
+        console.log(formDataJson)
 
         const endpoint = formDataJson.id ? `${import.meta.env.VITE_API_URL}${this.getAttribute('endpoint')}/${formDataJson.id}` : `${import.meta.env.VITE_API_URL}${this.getAttribute('endpoint')}`
         const method = formDataJson.id ? 'PUT' : 'POST'
@@ -391,7 +397,6 @@ class Form extends HTMLElement {
             throw response
           }
 
-          const data = await response.json()
           this.render()
           const saveNotificationEvent = new CustomEvent('custom-notification', {
             detail: {
@@ -457,12 +462,10 @@ class Form extends HTMLElement {
   }
 
   showElement (element) {
-    Object.entries(element).forEach(entry => {
-      console.log(entry)
-      const key = entry[0]
-      const value = entry[1]
-      // Verificar si el nombre de la clave coincide con el atributo 'name' del input
+    console.log(element)
+    Object.entries(element).forEach(([key, value]) => {
       const input = this.shadow.querySelector(`input[name="${key}"]`)
+
       if (input) {
         input.value = value
       }

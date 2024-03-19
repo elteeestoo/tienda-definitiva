@@ -1,4 +1,4 @@
-const db = require('../../models')
+const db = require('../../models/sequelize')
 const EmailError = db.EmailError
 const Op = db.Sequelize.Op
 

@@ -248,11 +248,8 @@ p {
       const ul = document.createElement('ul')
       const nameLi = document.createElement('li')
       nameLi.innerHTML = '<span>Nombre</span>' + row.name
-      const emailLi = document.createElement('li')
-      emailLi.innerHTML = '<span>Email</span>' + row.email
 
       ul.appendChild(nameLi)
-      ul.appendChild(emailLi)
 
       tableDataDiv.appendChild(ul)
 
@@ -285,8 +282,13 @@ p {
       }
 
       if (event.target.closest('.delete-button')) {
+        const deleteButtonDiv = event.target.closest('.delete-button')
+        const id = deleteButtonDiv.dataset.id
+        const endpoint = `${import.meta.env.VITE_API_URL}${this.getAttribute('endpoint')}/${id}`
         document.dispatchEvent(new CustomEvent('showDeleteModal', {
-
+          detail: {
+            endpoint
+          }
         }))
       }
     })

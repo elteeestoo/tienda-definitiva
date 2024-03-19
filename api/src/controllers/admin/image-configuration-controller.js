@@ -1,4 +1,4 @@
-const db = require('../../models')
+const db = require('../../models/sequelize')
 const ImageConfiguration = db.ImageConfiguration
 const Op = db.Sequelize.Op
 

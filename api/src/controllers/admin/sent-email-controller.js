@@ -1,4 +1,4 @@
-const db = require('../../models')
+const db = require('../../models/sequelize')
 const SentEmail = db.SentEmail
 const Op = db.Sequelize.Op
 
