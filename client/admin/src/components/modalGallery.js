@@ -12,9 +12,9 @@ class Gallery extends HTMLElement {
     this.shadow.querySelector('.upload-button').addEventListener('click', this.sendImage)
   }
 
-  // sendImage () {
-  //   alert('Se envió la imagen')
-  // }
+  sendImage () {
+    alert('Se envió la imagen')
+  }
 
   async getThumbnails () {
     try {
@@ -40,6 +40,7 @@ class Gallery extends HTMLElement {
       cardContainer.appendChild(imgElement)
 
       const closeIcon = document.createElement('div')
+      closeIcon.dataset.filename = thumbnail.filename
       closeIcon.classList.add('close-icon')
       closeIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="14" fill="red"/><path fill="white" d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"/></svg>'
       cardContainer.appendChild(closeIcon)
@@ -115,21 +116,25 @@ class Gallery extends HTMLElement {
   }
 
   async deleteImage (filename) {
-    const cardContainers = this.shadow.querySelectorAll('.card-container')
-    cardContainers.forEach(container => {
-      const imgElement = container.querySelector('img')
-      const imgSrc = imgElement.src
-      if (imgSrc.includes(filename)) {
-        if (imgElement.classList.contains('selected')) {
-          imgElement.classList.remove('selected')
-          const uploadButton = this.shadow.querySelector('.upload-button')
-          uploadButton.classList.remove('active')
-          uploadButton.disabled = true
-        }
-        container.remove()
-        alert('Imagen borrada correctamente.')
+    try {
+      const result = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/images/${filename}`, {
+        method: 'DELETE'
+      })
+
+      if (result.ok) {
+        const cardContainers = this.shadow.querySelectorAll('.card-container')
+        cardContainers.forEach(container => {
+          const imgElement = container.querySelector('img')
+          if (imgElement.src.includes(filename)) {
+            container.remove()
+          }
+        })
+      } else {
+        alert('Error al eliminar la imagen de la base de datos')
       }
-    })
+    } catch (error) {
+      console.error('Error al eliminar la imagen:', error)
+    }
   }
 
   toggleModal () {
@@ -353,12 +358,16 @@ class Gallery extends HTMLElement {
         border-radius: 10px;
         right: 2rem;
         color:white;
-        filter: brightness(90%);
+        filter: brightness(50%);
       }
 
-      .upload-button:hover {
-        filter: brightness(1.1);
+      .upload-button.active{
+        filter: brightness(100%);
       }
+
+      <!-- .upload-button .active:hover {
+        filter: brightness(1.1);
+      } -->
 
       .tab-content-upload {
         padding: 1rem 5rem 0rem 5rem;
@@ -503,8 +512,13 @@ class Gallery extends HTMLElement {
     })
   }
 
-  appendImage (filename) {
+  async appendImage (filename) {
     const uploadDiv = this.shadow.querySelector('.gallery-container')
+
+    const images = uploadDiv.querySelectorAll('img')
+    images.forEach(image => {
+      image.classList.remove('selected')
+    })
 
     const cardContainer = document.createElement('div')
     cardContainer.classList.add('card-container')
@@ -512,14 +526,21 @@ class Gallery extends HTMLElement {
 
     const imgElement = document.createElement('img')
     imgElement.src = `${import.meta.env.VITE_API_URL}/api/admin/images/${filename}`
+    imgElement.classList.add('selected')
     cardContainer.appendChild(imgElement)
 
     const closeIcon = document.createElement('div')
     closeIcon.classList.add('close-icon')
+    closeIcon.dataset.filename = filename
     closeIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="14" fill="red"/><path fill="white" d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"/></svg>'
     cardContainer.appendChild(closeIcon)
 
     this.setupImageContainerEvents(cardContainer)
+
+    const uploadButton = this.shadow.querySelector('.upload-button')
+    if (!uploadButton.classList.contains('active')) {
+      uploadButton.classList.add('active')
+    }
 
     imgElement.addEventListener('click', () => {
       this.toggleImageSelection(imgElement)

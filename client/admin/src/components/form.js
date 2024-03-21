@@ -325,7 +325,7 @@ class Form extends HTMLElement {
                         </label>
                       </div>
                       <div class="form-element-input">
-                        <upload-image-component></upload-image-component>
+                        <upload-image-component name="feature-image"></upload-image-component>
                       </div>
                     </div>
                   </div>

@@ -1,3 +1,6 @@
+import { store } from '../redux/store.js'
+import { setImageGallery } from '../redux/images-slice.js'
+
 class UploadImage extends HTMLElement {
   constructor () {
     super()
@@ -6,6 +9,8 @@ class UploadImage extends HTMLElement {
 
   connectedCallback () {
     this.render()
+    this.name = this.getAttribute('name')
+    console.log(this.name)
   }
 
   render () {
@@ -75,9 +80,7 @@ class UploadImage extends HTMLElement {
     <div class="form-row">
       <div class="form-element">
         <div class="form-element-input">
-
           <div class="gallery">
-            <label>Imagen del producto</label>
             <div class="open-gallery">
               <svg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'>
                 <path d='M20 18H4V8H20M20 6H12L10 4H4A2 2 0 0 0 2 6V18A2 2 0 0 0 4 20H20A2 2 0 0 0 22 18V8A2 2 0 0 0 20 6M16 17H14V13H11L15 9L19 13H16Z' />
@@ -93,6 +96,11 @@ class UploadImage extends HTMLElement {
     const upButtons = this.shadow.querySelectorAll('.open-gallery')
     upButtons.forEach(button => {
       button.addEventListener('click', () => {
+        const image = {
+          name: this.getAttribute('name')
+        }
+
+        store.dispatch(setImageGallery(image))
         document.dispatchEvent(new CustomEvent('showGalleryModal', {
         }))
       })
